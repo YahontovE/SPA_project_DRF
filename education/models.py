@@ -34,3 +34,23 @@ class Lesson(models.Model):
         verbose_name='урок'
         verbose_name_plural='уроки'
 
+
+class Payments(models.Model):
+    PAYMENT_METHOD = (
+        ('cash', 'наличные'),
+        ('card', 'по карте')
+    )
+
+    course=models.ForeignKey(Course,on_delete=models.CASCADE,verbose_name='курс',**NULLABLE)
+    lesson=models.ForeignKey(Lesson,on_delete=models.CASCADE,verbose_name='урок',**NULLABLE)
+
+    user = models.ForeignKey(User, verbose_name='пользователь', on_delete=models.CASCADE, **NULLABLE)
+
+    payment_date=models.DateField(auto_now_add=True,verbose_name='дата оплаты')
+    payment_sum=models.IntegerField(verbose_name='сумма оплаты')
+    payment_method=models.CharField(max_length=50,choices=PAYMENT_METHOD,verbose_name='способ оплаты')
+
+    class Meta:
+        verbose_name = 'платеж'
+        verbose_name_plural = 'платежи'
+
